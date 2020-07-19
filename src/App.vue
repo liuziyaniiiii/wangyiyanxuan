@@ -21,7 +21,8 @@ export default {
 }
 .test1{
   /* 做适配 */
-  width: 10rem;
+  /* width: 10rem; */
+  width: 750px;
   height: 100px;
   background: powderblue;
 }
