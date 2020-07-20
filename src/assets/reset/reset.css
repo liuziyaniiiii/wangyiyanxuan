@@ -1,0 +1,5 @@
+/* 重置vant的样式 */
+
+.tabBtnWrap .van-tab{
+    font-size: .35rem;
+}

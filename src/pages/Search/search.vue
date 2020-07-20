@@ -6,7 +6,8 @@
                 @input="inputVal"
                 class="searchInput"
                 v-model='searchInput_v'
-                placeholder="好货内部价"
+                placeholder="雨季必备神器"
+                @keyup.enter='submit'
             >
             <!-- 插槽 搜索框放大镜 Icon -->
             <template v-slot:left-icon>
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default{
     name:'Search',
     data(){
@@ -45,7 +47,14 @@ export default{
             this.isClose = true
         }
     },
+    created(){
+        // axios.get('http://localhost:9527/aa')
+        //     .then(_d =>{
+        //         console.log(_d.data)
+        //     })
+    },
     methods:{
+        // watch监听input有没有值
         inputVal(_v){
             // console.log(value)
             this.input_v = _v
@@ -53,6 +62,16 @@ export default{
         clearSearch(){
             this.searchInput_v=''
             this.isClose = false
+        },
+        submit(){
+            axios.get('http://localhost:9527/search',{
+                params:{
+                    key:this.input_v
+                }
+            })
+            .then(_d =>{
+                console.log(_d.data)
+            })
         }
     }
 }
