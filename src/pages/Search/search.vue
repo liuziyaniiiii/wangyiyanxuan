@@ -1,12 +1,14 @@
 <template>
 <div class="searchContainer">
+    <!-- 搜索框 -->
     <van-row type="flex" justify="space-between">
-        <van-col span="20">
+        <van-col span="24">
             <van-field
                 @input="inputVal"
                 class="searchInput"
                 v-model='searchInput_v'
-                placeholder="雨季必备神器"
+                input-align="center"
+                placeholder="搜索商品,共34323款好物"
                 @keyup.enter='submit'
             >
             <!-- 插槽 搜索框放大镜 Icon -->
@@ -24,34 +26,59 @@
 
             </van-field>
         </van-col>
-        <van-col span="3">
-            <van-button class="cancel" type="primary" size="mini">取消</van-button>
-        </van-col>
     </van-row>
+
+    <!-- 内容区 -->
+    <div class="searchContent">
+        <!-- 左侧导航 -->
+        <div class="navLeft">
+            <van-sidebar v-model="activeKey">
+                <van-sidebar-item 
+                    v-for="(navItem,index) in navLeftList" 
+                    :key="index" 
+                    :title="navItem.name" />
+            </van-sidebar>
+        </div>
+        <div class="searchRight">
+            <div class="banner">
+                <img src="https://yanxuan.nosdn.127.net/13b5104f7b382c46afd827a9733075bf.jpg?quality=75&type=webp&imageView&thumbnail=0x196" alt="">
+            </div>
+            <van-grid :column-num="3">
+                <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" />
+            </van-grid>
+        </div>
+    </div>
+    
+    <Footer></Footer>
 </div>
 </template>
 
 <script>
-import axios from 'axios';
+import{reqSearchList} from '../../api/index'
+import Footer from '../../components/Footer/footer'
 export default{
     name:'Search',
     data(){
         return {
             searchInput_v:'',
             input_v:'',
-            isClose:false
+            activeKey:'0',
+            isClose:false,
+            navLeftList:[]
         }
+    },
+    components:{
+        Footer
     },
     watch:{
         input_v(){
             this.isClose = true
         }
     },
-    created(){
-        // axios.get('http://localhost:9527/aa')
-        //     .then(_d =>{
-        //         console.log(_d.data)
-        //     })
+    async mounted(){
+        const result = await reqSearchList()
+        // console.log(result.data.data)
+        this.navLeftList = result.data.data.categoryL1List
     },
     methods:{
         // watch监听input有没有值
@@ -78,6 +105,7 @@ export default{
 </script>
 
 <style scoped>
+/* 搜索框 */
 .searchContainer{
     padding: .2rem .4rem;
 }
@@ -97,12 +125,34 @@ export default{
 .searchInput{
     padding-top: 0;
     padding-left: .26667rem;
-    padding-bottom: 0;
+    padding-bottom: .26667rem;
     border: 0;
     background-color: #f4f4f4;
     height: .74667rem;
     line-height: .74667rem;
     border-radius: 4px;
     font-size: .37333rem;
+}
+/* 内容区 */
+.searchContent{
+    border-top: 1px solid #eee;
+    margin-top: .26667rem;
+    display: flex;
+}
+.searchRight{
+    width:528px;
+    height: 872px;
+    /* background: pink; */
+    padding: .4rem .4rem .28rem;
+    height: 100%;
+    overflow: hidden
+}
+.searchRight .banner{
+    width:100%;
+    height: 192px;
+}
+.searchRight .banner img{
+    width:100%;
+    height: 192px;
 }
 </style>

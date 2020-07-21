@@ -3,3 +3,58 @@
 .tabBtnWrap .van-tab{
     font-size: .35rem;
 }
+
+
+/* 10个的图片放大 */
+.van-grid-item .van-grid-item__content .van-icon .van-icon__image{
+    display: block;
+    width: 1.46667rem;
+    height: 1.46667rem
+}
+
+/* cart页面中小圆点的样式(无作用) */
+
+.van-icon .van-icon-circle{
+    width:10px;
+    height:10px;
+}
+
+
+/* 登录页面的图标 */
+.loginContainer .loginTop .loginRow .van-icon{
+    font-size: .7rem;
+    color: #333;
+}
+.loginBtn .phoneBtn{
+    position: relative;
+}
+.loginBtn .phoneBtn .van-icon{
+    font-size: .7rem;
+    position: absolute;
+    left :25%;
+    top:.25rem;
+}
+.loginBtn .emailBtn{
+    position: relative;
+}
+.loginBtn .emailBtn .van-icon{
+    font-size: .7rem;
+    position: absolute;
+    left :25%;
+    top:.25rem;
+}
+/* 注册页面的图标样式 */
+.registerContainer .registerTop .registerRow .van-icon{
+    font-size: .7rem;
+    color: #333;
+}
+
+/* 底部的样式 */
+
+.van-tabbar-item__icon .van-icon {
+    font-size: 0.5rem;
+}
+
+.vantabbarItem{
+    font-size: 30px;
+}

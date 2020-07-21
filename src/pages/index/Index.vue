@@ -15,7 +15,7 @@
     </van-row>
 
     <!-- 导航标签 -->
-    <van-tabs v-model="active" swipeable class="tabBtnWrap">
+    <van-tabs  swipeable class="tabBtnWrap">
         <van-tab v-for="(navItem,index) in kingKongList" 
             :title="navItem.text"
             :key="index"
@@ -77,16 +77,21 @@
             />
         </van-grid>
     </div>
+
+    <!-- 内容区 -->
+    <div class='cateContainer'>	
+		
+	</div>
+
+    <Footer></Footer>
 </div>
 </template>
 
 <script>
 import {mapState,mapActions} from 'vuex'
 import {reqIndexList} from '../../api/index'
+import Footer from '../../components/Footer/footer'
 
-// import BScroll from 'better-scroll'
-// let wrapper = document.querySelector('.wrapper')
-// let scroll = new BScroll(wrapper)
 // 修改样式
 import '../../assets/reset/reset.css'
 
@@ -95,9 +100,13 @@ export default{
     data(){
         return {
             msg:'123',
-            active:'',
+            // active:'',
+            
             kingKongList:[]
         }
+    },
+    components:{
+        Footer
     },
     async mounted(){
         const result = await reqIndexList()
@@ -211,10 +220,5 @@ export default{
     width:.42667rem;
     height: .42667rem;
 }
-/* 10个的图片放大有问题 */
-.van-grid-item .van-grid-item__content .van-icon .van-icon__image{
-    display: block;
-    width: 1.46667rem;
-    height: 1.46667rem
-}
+
 </style>
