@@ -49,6 +49,12 @@
     color: #333;
 }
 
+/* 值得买页面的图标 */
+.buyContainer .buyTop .buyRow .van-icon{
+    font-size: .7rem;
+    color: #333;
+}
+
 /* 底部的样式 */
 
 .van-tabbar-item__icon .van-icon {

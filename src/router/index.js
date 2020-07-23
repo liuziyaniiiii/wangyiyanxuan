@@ -6,6 +6,7 @@ import Personal from '../pages/personal/personal.vue'
 import Cart from '../pages/Cart/cart.vue'
 import Login from '../pages/Login/login.vue'
 import Register from '../pages/Register/Register.vue'
+import Buy from '../pages/Buy/buy.vue'
 
 
 Vue.use(VueRouter)
@@ -37,9 +38,14 @@ const routes = [
 		component:Login
 	},
 	{
-		path:'/Register',
+		path:'/register',
 		name:'Register',
 		component:Register
+	},
+	{
+		path:'/buy',
+		name:'Buy',
+		component:Buy
 	}
 ]
 

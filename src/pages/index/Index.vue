@@ -1,7 +1,7 @@
 <template>
 <div class="title">
     <!-- 头部 -->
-    <van-row type="flex" justify="space-between" style="padding: 0 .2rem">
+    <van-row class="top" type="flex" justify="space-between">
         <van-col span="5">
             <img class="logo" src="../../assets/static/images/logo.png" />
         </van-col>
@@ -14,74 +14,33 @@
         </van-col>
     </van-row>
 
-    <!-- 导航标签 -->
-    <van-tabs  swipeable class="tabBtnWrap">
-        <van-tab v-for="(navItem,index) in kingKongList" 
-            :title="navItem.text"
+    <!-- 导航标签swipeable -->
+    <van-tabs   class="tabBtnWrap">
+        <van-tab title="推荐">
+             <Recommend ></Recommend>
+        </van-tab>
+        <van-tab v-for="(navItem,index) in indexNavList" 
+            :title="navItem.name"
             :key="index"
-        >
             
+        >
+            <CateList></CateList>
         </van-tab>
     </van-tabs>
     
-    <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="1000" indicator-color="white">
-        <van-swipe-item>
-            <img src="https://yanxuan.nosdn.127.net/50bc9d8901b05f7917156584812a853f.jpg?type=webp&imageView&quality=75&thumbnail=750x0" alt="">
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="https://yanxuan.nosdn.127.net/e1d32c538a9fcf420411592746098ad2.jpg?type=webp&imageView&quality=75&thumbnail=750x0" alt="">
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="https://yanxuan.nosdn.127.net/8fc032ff23ba6ca2f1c6df71e08d7a5b.jpg?type=webp&imageView&quality=75&thumbnail=750x0" alt="">
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="https://yanxuan.nosdn.127.net/8d2a7fc9eab1e4d347002868a756d9e2.jpg?type=webp&imageView&quality=75&thumbnail=750x0" alt="">
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="https://yanxuan.nosdn.127.net/99873ee03dbfa1fec94f273025baaf20.jpg?type=webp&imageView&quality=75&thumbnail=750x0" alt="">
-        </van-swipe-item>
-    </van-swipe>
-    <!-- 中间三个区域 -->
-    <div class="middle"> 
-        <ul>
-            <li>
-                <i>
-                    <img class="image" src="http://yanxuan.nosdn.127.net/a03dd909803b9ac032eba58b7253a2f6.png" alt="">
-                </i>
-                网易自营品牌
-            </li>
-            <li>
-                <i>
-                    <img class="image" src="http://yanxuan.nosdn.127.net/2d0402ffcd52b3ec3b07422681c42a89.png" alt="">
-                </i>
-                30天无忧退货
-            </li>
-            <li>
-                <i>
-                    <img class="image" src="http://yanxuan.nosdn.127.net/eb61ee48e8942dbd1784c9ee75ebe955.png" alt="">
-                </i>
-                48小时快速退款
-            </li>
-        </ul>
-    </div>
-
-    <!-- 10个 -->
-    <div>
-        <van-grid :column-num="5">
-            <van-grid-item 
-                v-for="(item,index) in kingKongList" 
-                :key="index" 
-                :icon="item.picUrl" 
-                :text="item.text" 
-            />
-        </van-grid>
-    </div>
+    <!-- <div >
+         @click="changeNavId(0)"
+        @click="changeNavId(index+1)"
+        <Recommend v-if="navId === 0"></Recommend>
+        <CateList v-else :navId='navId'></CateList>
+    </div> -->
 
     <!-- 内容区 -->
-    <div class='cateContainer'>	
+    <!-- <div class='cateContainer'>	
 		
-	</div>
+	</div> -->
+
+    
 
     <Footer></Footer>
 </div>
@@ -89,39 +48,52 @@
 
 <script>
 import {mapState,mapActions} from 'vuex'
-import {reqIndexList} from '../../api/index'
+import {reqIndexList,reqIndexOtherList} from '../../api/index'
 import Footer from '../../components/Footer/footer'
+import Recommend from '../../components/recommend/recommend'
+import CateList from '../../components/cateList/cateList'
+import BScroll from 'better-scroll'
+
 
 // 修改样式
 import '../../assets/reset/reset.css'
 
 export default{
+    
     name:'Index',
     data(){
         return {
             msg:'123',
             // active:'',
-            
-            kingKongList:[]
+            navId:0,
+            kingKongList:[], //主页数据
+            indexNavList:[], //导航数据
         }
     },
     components:{
-        Footer
+        Footer,
+        Recommend,
+        CateList
     },
     async mounted(){
         const result = await reqIndexList()
         // console.log(result.data.data)
         this.kingKongList = result.data.data.kingKongModule.kingKongList
+
+        const result1 = await reqIndexOtherList()
+        this.indexNavList = result1.data.data
+
     },
     methods:{
-        ...mapActions({
-            
-        }),
+        
         // 跳转到search界面
         toSearch(){
             // console.log('123')
             this.$router.push('/search')
-        }
+        },
+        // changeNavId(){
+        //     this.navId = navId
+        // }
     },
     computed:{
         
@@ -130,8 +102,11 @@ export default{
 </script>
 
 <style scoped>
-.title{
+/* .title{
     padding: .21333rem  0 .21333rem 0;
+} */
+.top{
+    padding: 0.2rem;
 }
 .logo{
     width:138px;
@@ -167,58 +142,8 @@ export default{
 /* 导航标签 */
 .tabBtnWrap{
     font-size: .4rem;
-    padding: 0 .2rem;
+    /* padding: 0 .2rem; */
 }
-/* 轮播图 */
-.my-swipe .van-swipe-item {
-    color: #fff;
-    height: 4rem;
-    font-size: 20px;
-    line-height: 150px;
-    text-align: center;
-    margin: 0 auto;
-    /* background-color: #39a9ed; */
-}
-.my-swipe .van-swipe-item img{
-    width:100%;
-    height: 4rem;
-}
-/* 中间三个 */
-.middle{
-    background-color: #fff;
-    padding-right:.21333rem ;
-}
-.middle ul{
-    width: 100%;
-    height: .96rem;
-    padding: 0 .4rem;
-    display: flex;
-    align-items: center;
-}
-.middle ul li{
-    flex: 1;
-    float: left;
-    /* background: #fff; */
-    font-size: .32rem;
-    color:#333;
-    margin-left: .10667rem;
-    line-height: .42667rem;
-    display: inline-block;
-    vertical-align: middle;
-}
-.middle ul li i{
-    width:.42667rem;
-    height: .42667rem;
-    font-size: .32rem;
-    color: #333;
-    margin-left: .10667rem;
-    line-height: .42667rem;
-    display: inline-block;
-    vertical-align: middle;
-}
-.middle ul li i .image{
-    width:.42667rem;
-    height: .42667rem;
-}
+
 
 </style>

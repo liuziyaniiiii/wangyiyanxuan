@@ -44,7 +44,7 @@
                 <img src="https://yanxuan.nosdn.127.net/13b5104f7b382c46afd827a9733075bf.jpg?quality=75&type=webp&imageView&thumbnail=0x196" alt="">
             </div>
             <van-grid :column-num="3">
-                <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" />
+                <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
             </van-grid>
         </div>
     </div>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import{reqSearchList} from '../../api/index'
+import{reqSearchList,reqCateLists} from '../../api/index'
 import Footer from '../../components/Footer/footer'
 export default{
     name:'Search',
@@ -64,7 +64,8 @@ export default{
             input_v:'',
             activeKey:'0',
             isClose:false,
-            navLeftList:[]
+            navLeftList:[],
+            rightContentList:[]
         }
     },
     components:{
@@ -79,6 +80,10 @@ export default{
         const result = await reqSearchList()
         // console.log(result.data.data)
         this.navLeftList = result.data.data.categoryL1List
+
+        // 右侧内容的数据
+        const rightResult = await reqCateLists()
+        this.rightContentList = rightResult.data.data
     },
     methods:{
         // watch监听input有没有值
