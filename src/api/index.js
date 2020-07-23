@@ -19,3 +19,8 @@ export function reqSearchList(){
 export function reqCateLists(){
     return axios.get('/api/getCateListsData')
 }
+
+// 值得买页面上面的数据
+export function reqBuyLists(){
+    return axios.get('/api/getNavWrapData')
+}

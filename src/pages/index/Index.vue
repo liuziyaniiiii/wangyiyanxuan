@@ -10,7 +10,7 @@
             <span>搜索商品,共34099款好物</span>
         </van-col>
         <van-col span="3">
-            <van-button class="loginBtn" type="primary" size="mini">登录</van-button>
+            <van-button class="loginBtn" type="primary" size="mini" @click="toLogin">登录</van-button>
         </van-col>
     </van-row>
 
@@ -94,6 +94,9 @@ export default{
         // changeNavId(){
         //     this.navId = navId
         // }
+        toLogin(){
+            this.$router.push('/login')
+        }
     },
     computed:{
         

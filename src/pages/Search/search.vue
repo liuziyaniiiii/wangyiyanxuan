@@ -44,7 +44,10 @@
                 <img src="https://yanxuan.nosdn.127.net/13b5104f7b382c46afd827a9733075bf.jpg?quality=75&type=webp&imageView&thumbnail=0x196" alt="">
             </div>
             <van-grid :column-num="3">
-                <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
+                <van-grid-item 
+                    v-for="(item,index) in rightContentList[0].categoryList" :key="index" 
+                    :icon="item.bannerUrl" 
+                    :text="item.name" />
             </van-grid>
         </div>
     </div>
@@ -83,7 +86,8 @@ export default{
 
         // 右侧内容的数据
         const rightResult = await reqCateLists()
-        this.rightContentList = rightResult.data.data
+        // console.log(rightResult.data.data.splice(0,4))
+        this.rightContentList = rightResult.data.data.splice(0,4)
     },
     methods:{
         // watch监听input有没有值

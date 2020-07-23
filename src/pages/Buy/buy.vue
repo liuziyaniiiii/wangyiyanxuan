@@ -21,28 +21,25 @@
               <img class="floorImg" src="http://m.you.163.com/topic/index/img/topic_title_bg.2373a140.png" alt="">
               <div class="centertext">严选好物 用心生活</div>
           </div>
-
+        <!-- 上面的轮播部分 -->
           <div class="centerSwiper">
-              <div class="wrapper" ref="wrapper">
-                  <div class="content" @click="buyScroll">
-
-
-                    <van-grid  :column-num="3" :gutter="10">
-                        <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
-                    </van-grid>
-                    <van-grid  :column-num="3 " :gutter="10">
-                        <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
-                    </van-grid>
-                    <!-- <div class="centerContent">
-                          <img src="../../assets/static/images/carts/emptyCart.gif" alt="">
-                          <p>9.9超值</p>
-                          <p>爆品定价直降</p>
-                    </div> -->
-
-                  </div>
-              </div>
+              <van-swipe class="my-swipe"  indicator-color="white">
+                <van-swipe-item>
+                    <div class="centerContent" v-for="(item,index) in buyListsData" :key="index">
+                          <img :src="item.picUrl" alt="">
+                          <p class="dec">{{item.mainTitle}}</p>
+                          <p class="down">{{item.viceTitle}}</p>
+                    </div>
+                </van-swipe-item>
+                <van-swipe-item>
+                    <div class="centerContent" v-for="(item,index) in buyListsData" :key="index">
+                          <img :src="item.picUrl" alt="">
+                          <p class="dec">{{item.mainTitle}}</p>
+                          <p class="down">{{item.viceTitle}}</p>
+                    </div>
+                </van-swipe-item>
+            </van-swipe>     
           </div>
-          
       </div>
 
       <Footer></Footer>
@@ -51,31 +48,30 @@
 
 <script>
 import BScroll from "better-scroll"
+import {reqBuyLists} from '../../api/index'
+
 import '../../assets/reset/reset.css'
 import Footer from '../../components/Footer/footer'
 export default {
     name:'Buy',
-    mounted(){
-        this.$nextTick(()=>{
-            this.buyScroll()
-        })
+    data(){
+        return{
+            buyListsData:[]
+        }
+    },
+    async mounted(){
+        // this.$nextTick(()=>{
+        //     this.buyScroll()
+        // })
+        let result = await reqBuyLists()
+        // console.log(result.data.data.data.navList)
+        this.buyListsData = result.data.data.data.navList.splice(0,8)
     },
     methods:{
         toIndex(){
             this.$router.push('/')
         },
-        // 滑动
-        buyScroll(){
-            this.scrollWrap = new BScroll(this.$refs.wrapper,{
-                mouseWheel: true,
-                disableTouch: false,
-                disableMouse: false,
-                resizePolling: 0,
-                click: true,
-                scrollX: true,
-                probeType: 3,
-            });
-        }
+        
     },
     components:{
         Footer
@@ -154,16 +150,53 @@ export default {
     transform: translateY(2.1rem);
 }
 /*滑动区域*/
-.centerSwiper .wrapper{
+
+.my-swipe .van-swipe-item {
+    color: #fff;
+    font-size: 20px;
+    line-height: 150px;
+    text-align: center;
+    /* background-color: #39a9ed; */
     display: flex;
-}
-.centerSwiper .wrapper .content{
+    flex-wrap: wrap;
+  }
+.centerContent{
     display: flex;
+    flex-direction: column;
+    
+    margin:0 auto;
+    margin-top: 20px;
 }
-.centerSwiper .wrapper .content .centerContent img{
+.centerContent img{
     display: block;
     width:120px;
     height: 120px;
+    border-radius: 50%;
 }
-
+.centerContent .dec{
+    display: block;
+    font-family: 'PingFang-SC-Bold';
+    font-weight: bold;
+    font-size: .4rem;
+    width: 1.68rem;
+    height: .4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #333333;
+    text-align: center;
+    line-height: .4rem;
+    margin-top: .2rem;
+}
+.centerContent .down{
+    width: 2rem;
+    margin-top: .3rem;
+    font-family: 'PingFangSC-Regular';
+    font-size: .2rem;
+    color: #999999;
+    text-align: center;
+    height: .3rem;
+    line-height: .3rem;
+    white-space: nowrap;
+    overflow: hidden
+}
 </style>
